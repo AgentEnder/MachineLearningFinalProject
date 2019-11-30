@@ -1,7 +1,6 @@
 import pandas as pd
 import numpy as np
-from sklearn.preprocessing import OneHotEncoder
-from sklearn.preprocessing import LabelEncoder
+from sklearn.preprocessing import OneHotEncoder, LabelEncoder, KBinsDiscretizer
 
 def preprocess(data, save_encoded = False):
     le = LabelEncoder()
@@ -34,4 +33,9 @@ def split_attributes(data, num_labels):
     y = data.iloc[:,num_labels*-1:]
     return x, y
 
-    
+def bucketize_y(y, num_buckets):
+    binner = KBinsDiscretizer(n_bins = num_buckets, encode='ordinal')
+    cols = y.columns
+    y = binner.fit_transform(y)
+    y = pd.DataFrame(data=y,columns=cols)
+    return y
