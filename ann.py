@@ -11,7 +11,7 @@ def build_and_train_net(data,classes):
     
     classifier=Sequential()
     classifier.add(Dense(activation="relu",units=20,input_dim=data.shape[1]))
-    classifier.add(Dense(units=15,activation="sigmoid"))
+    classifier.add(Dense(units=15,activation="relu"))
     classifier.add(Dense(units=10,activation="sigmoid"))
     classifier.add(Dense(units=data.shape[1],activation="sigmoid"))
     classifier.compile(optimizer="adam",loss="binary_crossentropy",metrics=["accuracy"])
@@ -23,12 +23,13 @@ def build_and_train_net(data,classes):
     y=np.reshape(y,[len(y),1])
     y=enc.fit_transform(y).toarray()
     print(y[0])
-    classifier.fit(x,y,batch_size=10,nb_epoch=500)
+    classifier.fit(x,y,batch_size=10,nb_epoch=1000)
     classifier.save("Model.h5")
 
     pass
 def test_classifier(data,classes):
     from sklearn.metrics import confusion_matrix
+    from sklearn.metrics import accuracy_score
     classifier = load_model("Model.h5")
     predictions=classifier.predict(data.values)
     #temp_predictions=np.zeros(predictions.shape)
@@ -39,5 +40,7 @@ def test_classifier(data,classes):
         
     cm = confusion_matrix(predictions,y)
     print(cm)
+    acc = accuracy_score(predictions,y)
+    print(acc)
 def run_classifier(data):
     pass
