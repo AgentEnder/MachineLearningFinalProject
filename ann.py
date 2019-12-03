@@ -7,21 +7,21 @@ import numpy as np
 
 
 def build_and_train_net(data,classes):
-    
-    
-    classifier=Sequential()
-    classifier.add(Dense(activation="relu",units=20,input_dim=data.shape[1]))
-    classifier.add(Dense(units=15,activation="relu"))
-    classifier.add(Dense(units=10,activation="sigmoid"))
-    classifier.add(Dense(units=data.shape[1],activation="sigmoid"))
-    classifier.compile(optimizer="adam",loss="binary_crossentropy",metrics=["accuracy"])
-    
     x=data.values
     y=classes
     #y=np.true_divide(y,4)
     enc = OneHotEncoder()
     y=np.reshape(y,[len(y),1])
     y=enc.fit_transform(y).toarray()
+    
+    classifier=Sequential()
+    classifier.add(Dense(activation="relu",units=20,input_dim=data.shape[1]))
+    classifier.add(Dense(units=15,activation="relu"))
+    classifier.add(Dense(units=10,activation="relu"))
+    classifier.add(Dense(units=y.shape[1],activation="sigmoid"))
+    classifier.compile(optimizer="adam",loss="binary_crossentropy",metrics=["accuracy"])
+    
+    
     print(y[0])
     classifier.fit(x,y,batch_size=10,nb_epoch=1000)
     classifier.save("Model.h5")
