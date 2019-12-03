@@ -15,7 +15,7 @@ cols.extend(y.columns)
 new_data = pd.DataFrame(data=x.join(y), columns=cols)
 
 #splitting train and test
-x_train,x_test,y_train,y_test = train_test_split(x,y,test_size=.15,random_state=0)
+x_train,x_test,y_train,y_test = train_test_split(x,y,test_size=.05,random_state=0)
 
 #Neural Network
 import ann
