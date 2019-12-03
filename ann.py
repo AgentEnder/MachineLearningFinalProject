@@ -17,7 +17,7 @@ def build_and_train_net(data,classes):
     classifier.compile(optimizer="adam",loss="binary_crossentropy",metrics=["accuracy"])
     
     x=data.values
-    y=classes.values[:,2]
+    y=classes
     #y=np.true_divide(y,4)
     enc = OneHotEncoder()
     y=np.reshape(y,[len(y),1])
@@ -36,7 +36,7 @@ def test_classifier(data,classes):
     #temp_predictions[np.arange(len(predictions)), predictions.argmax(1)] = 1
     
     predictions=predictions.argmax(1)
-    y=classes.values[:,2]
+    y=classes
         
     cm = confusion_matrix(predictions,y)
     print(cm)
