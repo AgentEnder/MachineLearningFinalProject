@@ -15,15 +15,16 @@ def build_and_train_net(data,classes):
     y=enc.fit_transform(y).toarray()
     
     classifier=Sequential()
-    classifier.add(Dense(activation="relu",units=20,input_dim=data.shape[1]))
-    classifier.add(Dense(units=15,activation="relu"))
-    classifier.add(Dense(units=10,activation="relu"))
+    classifier.add(Dense(activation="relu",units=32,input_dim=data.shape[1]))
+    classifier.add(Dense(units=16,activation="relu"))
+    classifier.add(Dense(units=16,activation="relu"))
+    classifier.add(Dense(units=16,activation="relu"))
     classifier.add(Dense(units=y.shape[1],activation="sigmoid"))
     classifier.compile(optimizer="adam",loss="binary_crossentropy",metrics=["accuracy"])
     
     
     print(y[0])
-    classifier.fit(x,y,batch_size=10,nb_epoch=1000)
+    classifier.fit(x,y,batch_size=10,nb_epoch=300)
     classifier.save("Model.h5")
 
     pass
