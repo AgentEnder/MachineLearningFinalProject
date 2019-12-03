@@ -1,6 +1,7 @@
 import tensorflow
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense
+from tensorflow.keras.layers import Dropout
 from tensorflow.keras.models import load_model
 from sklearn.preprocessing import OneHotEncoder
 import numpy as np
@@ -15,10 +16,10 @@ def build_and_train_net(data,classes):
     y=enc.fit_transform(y).toarray()
     
     classifier=Sequential()
-    classifier.add(Dense(activation="relu",units=32,input_dim=data.shape[1]))
-    classifier.add(Dense(units=16,activation="relu"))
-    classifier.add(Dense(units=16,activation="relu"))
-    classifier.add(Dense(units=16,activation="relu"))
+    classifier.add(Dense(activation="relu",units=20,input_dim=data.shape[1]))
+    classifier.add(Dropout(rate=.1))
+    classifier.add(Dense(units=20,activation="relu"))
+    classifier.add(Dense(units=20,activation="relu"))
     classifier.add(Dense(units=y.shape[1],activation="sigmoid"))
     classifier.compile(optimizer="adam",loss="binary_crossentropy",metrics=["accuracy"])
     
