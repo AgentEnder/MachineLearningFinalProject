@@ -12,3 +12,8 @@ cols = list(x.columns)
 cols.extend(y.columns)
 
 new_data = pd.DataFrame(data=x.join(y), columns=cols)
+
+#Neural Network
+import ann
+ann.build_and_train_net(x,y)
+ann.test_classifier(x,y)
