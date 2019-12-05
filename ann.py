@@ -7,14 +7,15 @@ from sklearn.preprocessing import OneHotEncoder
 import numpy as np
 
 
-def build_and_train_net(data,classes):
+def build_and_train_net(data,classes,testDat,testClass):
     x=data.values
     y=classes
     #y=np.true_divide(y,4)
     enc = OneHotEncoder()
     y=np.reshape(y,[len(y),1])
     y=enc.fit_transform(y).toarray()
-    
+    testClass=np.reshape(testClass,[len(testClass),1])
+    testClass=enc.fit_transform(testClass).toarray()
     classifier=Sequential()
     classifier.add(Dense(activation="relu",units=16,input_dim=data.shape[1]))
     classifier.add(Dropout(rate=.15))
@@ -24,10 +25,20 @@ def build_and_train_net(data,classes):
     classifier.compile(optimizer="adam",loss="binary_crossentropy",metrics=["accuracy"])
     
     
-    print(y[0])
-    classifier.fit(x,y,batch_size=10,nb_epoch=200)
-    classifier.save("Model.h5")
+    history = classifier.fit(x,y,batch_size=10,nb_epoch=39,validation_data=(testDat.values,testClass))
+    import matplotlib.pyplot as plt
+    plt.plot(np.arange(len(history.history["val_loss"])),history.history["val_loss"])
+    plt.show()
     
+    curMax=10
+    curMaxI=0
+    for i in range(len(history.history["val_loss"])):
+        if history.history["val_loss"][i] < curMax:
+            curMax=history.history["val_loss"][i]
+            curMaxI=i
+    print(str(curMax)+" " +str(curMaxI))
+    classifier.save("Model.h5")
+    return history
 
     pass
 def test_classifier(data,classes):
