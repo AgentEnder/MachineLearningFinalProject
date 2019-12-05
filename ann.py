@@ -19,20 +19,30 @@ def build_and_train_net(data,classes):
     classifier.add(Dense(activation="relu",units=20,input_dim=data.shape[1]))
     classifier.add(Dropout(rate=.1))
     classifier.add(Dense(units=20,activation="relu"))
+    classifier.add(Dense(units=20,activation="sigmoid"))
+    classifier.add(Dropout(rate=.1))
     classifier.add(Dense(units=20,activation="relu"))
+    classifier.add(Dense(units=20,activation="sigmoid"))
     classifier.add(Dense(units=y.shape[1],activation="sigmoid"))
     classifier.compile(optimizer="adam",loss="binary_crossentropy",metrics=["accuracy"])
     
     
     print(y[0])
-    classifier.fit(x,y,batch_size=10,nb_epoch=300)
+    classifier.fit(x,y,batch_size=10,nb_epoch=10000)
     classifier.save("Model.h5")
+    
 
     pass
 def test_classifier(data,classes):
     from sklearn.metrics import confusion_matrix
     from sklearn.metrics import accuracy_score
+    
     classifier = load_model("Model.h5")
+    
+    from tensorflow.keras.utils import plot_model
+    plot_model(classifier, to_file='model.png',expand_nested=True)
+
+    
     predictions=classifier.predict(data.values)
     #temp_predictions=np.zeros(predictions.shape)
     #temp_predictions[np.arange(len(predictions)), predictions.argmax(1)] = 1
