@@ -1,4 +1,3 @@
-from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import confusion_matrix, accuracy_score
 def classify(x_train,x_test,y_train,y_test):
@@ -13,6 +12,6 @@ def classify(x_train,x_test,y_train,y_test):
     
     test_pred = model.predict(x_test)
     
-    confusionMat = confusion_matrix(y_test, test_pred)
+    cm = confusion_matrix(y_test, test_pred)
     print(f"Accuracy: {accuracy_score(y_test, test_pred)}")
-    return confusionMat
+    return cm

@@ -40,16 +40,3 @@ def bucketize_y(y, num_buckets):
     y = pd.DataFrame(data=y,columns=cols)
     return y
 
-def statsBuckets(data):
-    newData=[]
-    for i in range(len(data)):
-        if data[i]>=14:
-            newData.append(3)
-        elif data[i]>=10:
-            newData.append(2)
-        elif data[i]>=4:
-            newData.append(1)
-        else:
-            newData.append(0)
-    return np.array(newData)
-            
