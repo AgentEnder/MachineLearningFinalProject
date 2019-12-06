@@ -2,7 +2,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import confusion_matrix, accuracy_score
 def classify(x_train,x_test,y_train,y_test):
-    model = RandomForestClassifier(n_estimators = 1000, criterion = 'entropy', random_state = 0)
+    model = RandomForestClassifier(n_estimators = 5000, criterion = 'entropy', random_state = 0)
     model.fit(x_train, y_train)
     temp=model.estimators_[5]
     from sklearn.tree import export_graphviz

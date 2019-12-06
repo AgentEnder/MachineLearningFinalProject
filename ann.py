@@ -22,21 +22,24 @@ def build_and_train_net(data,classes,testDat,testClass):
     classifier.add(Dense(units=12,activation="relu"))
     classifier.add(Dense(units=6,activation="sigmoid"))
     classifier.add(Dense(units=y.shape[1],activation="sigmoid"))
-    classifier.compile(optimizer="adam",loss="binary_crossentropy",metrics=["accuracy"])
+    classifier.compile(optimizer="adam",loss="categorical_crossentropy",metrics=["accuracy"])
     
+    print(y)
+    #history = classifier.fit(x,y,batch_size=10,nb_epoch=10,validation_data=(testDat.values,testClass))
+    history = classifier.fit(x,y,batch_size=10,nb_epoch=80)
     
-    history = classifier.fit(x,y,batch_size=10,nb_epoch=39,validation_data=(testDat.values,testClass))
-    import matplotlib.pyplot as plt
-    plt.plot(np.arange(len(history.history["val_loss"])),history.history["val_loss"])
-    plt.show()
-    
-    curMax=10
-    curMaxI=0
-    for i in range(len(history.history["val_loss"])):
-        if history.history["val_loss"][i] < curMax:
-            curMax=history.history["val_loss"][i]
-            curMaxI=i
-    print(str(curMax)+" " +str(curMaxI))
+    valCheck=False
+    if valCheck==True:
+        import matplotlib.pyplot as plt
+        plt.plot(np.arange(len(history.history["val_loss"])),history.history["val_loss"])
+        plt.show()
+        curMax=10
+        curMaxI=0
+        for i in range(len(history.history["val_loss"])):
+            if history.history["val_loss"][i] < curMax:
+                curMax=history.history["val_loss"][i]
+                curMaxI=i
+        print(str(curMax)+" " +str(curMaxI))
     classifier.save("Model.h5")
     return history
 
@@ -58,9 +61,10 @@ def test_classifier(data,classes):
     predictions=predictions.argmax(1)
     y=classes
         
-    cm = confusion_matrix(predictions,y)
+    cm = confusion_matrix(y,predictions)
     print(cm)
-    acc = accuracy_score(predictions,y)
+    acc = accuracy_score(y,predictions)
     print(acc)
+    return cm
 def run_classifier(data):
     pass
