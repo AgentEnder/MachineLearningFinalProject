@@ -63,7 +63,7 @@ def test_classifier(data,classes):
     y=classes
         
     cm = confusion_matrix(y,predictions)
-    print("Confusion Matrix:" + cm)
+    
     acc = accuracy_score(y,predictions)
     print("Accuracy" + str(acc))
     
